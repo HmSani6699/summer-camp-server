@@ -26,11 +26,12 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
-        const instructoresCollection = client.db("sadiqWebDB").collection("instructors")
+        const instructoresCollection = client.db("sadiqWebDB").collection("instructors");
 
         // Instructors Collection
-        app.get('/instructors ', async (req, res) => {
+        app.get('/instructors', async (req, res) => {
             const instructors = await instructoresCollection.find().toArray();
+            console.log(34, instructors);
             res.send(instructors)
         })
 
@@ -54,3 +55,46 @@ app.listen(port, () => {
     console.log('Assignment Server is runing on the port', port);
 })
 
+
+
+
+
+// [
+//     {
+//       "name": "John Doe",
+//       "_id": "1",
+//       "email": "johndoe@example.com",
+//       "image":"https://i.ibb.co/m8xg4RD/instructores4-removebg-preview.png"
+//     },
+//     {
+//       "name": "Jane Smith",
+//       "_id": "2",
+//       "email": "janesmith@example.com",
+//       "image":"https://i.ibb.co/8YCBQL8/instructores8-removebg-preview.png"
+//     },
+//     {
+//       "name": "Michael Johnson",
+//       "_id": "3",
+//       "email": "michaeljohnson@example.com",
+//       "image":"https://i.ibb.co/NLbPwT8/instructores6-removebg-preview.png"
+//     },
+//     {
+//       "name": "Emily Davis",
+//       "_id": "4",
+//       "email": "emilydavis@example.com",
+//       "image":"https://i.ibb.co/LZwcJfx/instructores7-removebg-preview.png"
+//     },
+//     {
+//       "name": "David Brown",
+//       "_id": "5",
+//       "email": "davidbrown@example.com",
+//       "image":"https://i.ibb.co/7j9w0cY/instructores2-removebg-preview.png"
+//     },
+//     {
+//       "name": "Sarah Wilson",
+//       "_id": "6",
+//       "email": "sarahwilson@example.com",
+//       "image":"https://i.ibb.co/RbKBVy5/instructores3-removebg-preview.png"
+//     }
+//   ]
+  
