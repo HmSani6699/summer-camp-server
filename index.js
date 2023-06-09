@@ -26,12 +26,25 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
+        const classesCollection = client.db("sadiqWebDB").collection("classes");
         const instructoresCollection = client.db("sadiqWebDB").collection("instructors");
+        const reviewCollection = client.db("sadiqWebDB").collection("review");
+
+        // Classes collection
+        app.get('/classes', async (req, res) => {
+            const instructors = await classesCollection.find().toArray();
+            res.send(instructors)
+        })
 
         // Instructors Collection
         app.get('/instructors', async (req, res) => {
             const instructors = await instructoresCollection.find().toArray();
-            console.log(34, instructors);
+            res.send(instructors)
+        })
+
+        // Review Collection
+        app.get('/review', async (req, res) => {
+            const instructors = await reviewCollection.find().toArray();
             res.send(instructors)
         })
 
