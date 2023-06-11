@@ -44,11 +44,22 @@ async function run() {
         })
 
         // Classs collection
-        app.post('/class',async (req,res)=>{
+        app.post('/class', async (req, res) => {
             const LoadClass = req.body;
             const result = await classCollection.insertOne(LoadClass);
             res.send(result)
-        } )
+        })
+
+        app.get('/class', async (req, res) => {
+            const email = req.query.email;
+            console.log(60,email);
+            if(!email){
+                res.send([])
+            }
+            const query ={email:email}
+            const result = await classCollection.find(query).toArray();
+            res.send(result);
+        })
 
         // Review Collection
         app.get('/review', async (req, res) => {
@@ -118,4 +129,3 @@ app.listen(port, () => {
 //       "image":"https://i.ibb.co/RbKBVy5/instructores3-removebg-preview.png"
 //     }
 //   ]
-  
