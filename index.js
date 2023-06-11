@@ -52,9 +52,9 @@ async function run() {
 
         app.get('/class', async (req, res) => {
             const email = req.query.email;
-            console.log(60,email);
             if(!email){
-                res.send([])
+                res.send([]);
+                return
             }
             const query ={email:email}
             const result = await classCollection.find(query).toArray();
