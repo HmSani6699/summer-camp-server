@@ -26,8 +26,9 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
-        const classesCollection = client.db("sadiqWebDB").collection("classes");
         const instructoresCollection = client.db("sadiqWebDB").collection("instructors");
+        const classesCollection = client.db("sadiqWebDB").collection("classes");
+        const classCollection = client.db("sadiqWebDB").collection("class");
         const reviewCollection = client.db("sadiqWebDB").collection("review");
 
         // Classes collection
@@ -41,6 +42,13 @@ async function run() {
             const instructors = await instructoresCollection.find().toArray();
             res.send(instructors)
         })
+
+        // Classs collection
+        app.post('/class',async (req,res)=>{
+            const LoadClass = req.body;
+            const result = await classCollection.insertOne(LoadClass);
+            res.send(result)
+        } )
 
         // Review Collection
         app.get('/review', async (req, res) => {
