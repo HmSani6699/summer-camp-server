@@ -30,6 +30,21 @@ async function run() {
         const classesCollection = client.db("sadiqWebDB").collection("classes");
         const classCollection = client.db("sadiqWebDB").collection("class");
         const reviewCollection = client.db("sadiqWebDB").collection("review");
+        const userCollaction = client.db("sadiqWebDB").collection("users");
+
+
+        // Users Collection
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            // const query = { email: user.email };
+            // const existingUser = await userCollaction.findOne(query);
+            // if (existingUser) {
+            //   return {}
+            // }
+            const result = await userCollaction.insertOne(user);
+            res.send(result)
+          })
+
 
         // Classes collection
         app.get('/classes', async (req, res) => {
