@@ -51,6 +51,48 @@ async function run() {
             res.send(result)
           })
 
+          // Set the admin role
+          app.patch('/users/admin/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const updateDoc = { $set: { rol: `admin` }, };
+            const result = await userCollaction.updateOne(filter, updateDoc);
+            res.send(result);
+          })
+
+          // Set the Instructor role
+          app.patch('/users/instructor/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) }
+            const updateDoc = { $set: { rol: `admin` }, };
+            const result = await userCollaction.updateOne(filter, updateDoc);
+            res.send(result);
+          })
+
+
+          app.get('/users/admin/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+      
+            if (email !== req.decoded.email) {
+              res.send({admin:false})
+            }
+      
+            const query = { email: email }
+            const user = await userCollaction.findOne(query);
+            const result = { admin: user?.rol === 'admin' };
+            res.send(result)
+      
+          })
+
+
+          app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            console.log(122,query);
+            const result = await userCollaction.deleteOne(query);
+            res.send(result)
+          })
+
 
         // Classes collection
         app.get('/classes', async (req, res) => {
