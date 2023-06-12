@@ -34,13 +34,19 @@ async function run() {
 
 
         // Users Collection
+
+        app.get('/users', async (req, res) => {
+            const result = await userCollaction.find().toArray();
+            res.send(result)
+          })
+
         app.post('/users', async (req, res) => {
             const user = req.body;
-            // const query = { email: user.email };
-            // const existingUser = await userCollaction.findOne(query);
-            // if (existingUser) {
-            //   return {}
-            // }
+            const query = { email: user.email };
+            const existingUser = await userCollaction.findOne(query);
+            if (existingUser) {
+              return {}
+            }
             const result = await userCollaction.insertOne(user);
             res.send(result)
           })
