@@ -76,7 +76,6 @@ async function run() {
             const user = await userCollaction.findOne(query);
             const result = { admin: user?.rol === 'admin' };
             res.send(result)
-      
           })
 
 
