@@ -64,19 +64,14 @@ async function run() {
           app.patch('/users/instructor/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
-            const updateDoc = { $set: { rol: `admin` }, };
+            const updateDoc = { $set: { rol: `instructor` }, };
             const result = await userCollaction.updateOne(filter, updateDoc);
             res.send(result);
           })
 
 
-          app.get('/users/admin/:email', verifyJWT, async (req, res) => {
+          app.get('/users/admin/:email', async (req, res) => {
             const email = req.params.email;
-      
-            if (email !== req.decoded.email) {
-              res.send({admin:false})
-            }
-      
             const query = { email: email }
             const user = await userCollaction.findOne(query);
             const result = { admin: user?.rol === 'admin' };
