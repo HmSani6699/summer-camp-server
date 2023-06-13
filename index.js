@@ -38,54 +38,63 @@ async function run() {
         app.get('/users', async (req, res) => {
             const result = await userCollaction.find().toArray();
             res.send(result)
-          })
+        })
 
         app.post('/users', async (req, res) => {
             const user = req.body;
             const query = { email: user.email };
             const existingUser = await userCollaction.findOne(query);
             if (existingUser) {
-              return {}
+                return {}
             }
             const result = await userCollaction.insertOne(user);
             res.send(result)
-          })
+        })
 
-          // Set the admin role
-          app.patch('/users/admin/:id', async (req, res) => {
+        // Set the admin role
+        app.patch('/users/admin/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
             const updateDoc = { $set: { rol: `admin` }, };
             const result = await userCollaction.updateOne(filter, updateDoc);
             res.send(result);
-          })
+        })
 
-          // Set the Instructor role
-          app.patch('/users/instructor/:id', async (req, res) => {
+        // Set the Instructor role
+        app.patch('/users/instructor/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
             const updateDoc = { $set: { rol: `instructor` }, };
             const result = await userCollaction.updateOne(filter, updateDoc);
             res.send(result);
-          })
+        })
 
 
-          app.get('/users/admin/:email', async (req, res) => {
+        app.get('/users/admin/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email }
             const user = await userCollaction.findOne(query);
             const result = { admin: user?.rol === 'admin' };
             res.send(result)
-          })
+        })
+
+        app.get('/users/instructor/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email }
+            const user = await userCollaction.findOne(query);
+            const result = { instructor: user?.rol === 'instructor' };
+            res.send(result)
+        })
 
 
-          app.delete('/users/:id', async (req, res) => {
+
+        app.delete('/users/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
-            console.log(122,query);
+            console.log(122, query);
             const result = await userCollaction.deleteOne(query);
             res.send(result)
-          })
+        })
 
 
         // Classes collection
@@ -109,18 +118,18 @@ async function run() {
 
         app.get('/class', async (req, res) => {
             const email = req.query.email;
-            if(!email){
+            if (!email) {
                 res.send([]);
                 return
             }
-            const query ={email:email}
+            const query = { email: email }
             const result = await classCollection.find(query).toArray();
             res.send(result);
         })
 
-        app.delete('/class/:id',async(req,res)=>{
+        app.delete('/class/:id', async (req, res) => {
             const id = req.params.id
-            const query= {_id:new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await classCollection.deleteOne(query);
             res.send(result)
         })
