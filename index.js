@@ -15,6 +15,7 @@ app.use(express.json())
 // jwt token
 
 const verifyJWT = (req, res, next) => {
+  console.log(req.query.email);
   const authorization = req.headers.authorization;
   if (!authorization) {
     return res.status(401).send({ error: true, message: 'unauthorized access' })
@@ -294,15 +295,24 @@ async function run() {
 
 
 
-    app.get('/payments', verifyJWT, async (req, res) => {
+    app.get('/payments',verifyJWT, async (req, res) => {
       const email = req.query.email;
-      console.log(email, 353)
       if (!email) {
         return res.send([]);
       }
       const decodedEmail = req.decoded.email;
       if (email !== decodedEmail) {
         return res.status(403).send({ error: true, message: 'forbidden access' });
+      }
+      const query = { email: email }
+      const result = await paymentCollection.find(query).sort({ date: -1 }).toArray()
+      res.send(result);
+    })
+
+    app.get('/payments/:email',async (req, res) => {
+      const email = req.params.email;
+      if (!email) {
+        return res.send([]);
       }
       const query = { email: email }
       const result = await paymentCollection.find(query).sort({ date: -1 }).toArray()
