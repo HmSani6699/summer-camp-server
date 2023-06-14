@@ -7,8 +7,6 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 5000;
 
 const stripe = require("stripe")(process.env.PAYMENT_SECRET_KEY)
-console.log('------------434343434----------', stripe, '------------------------43434343-----------');
-
 
 // Middelware
 app.use(cors())
@@ -106,12 +104,6 @@ async function run() {
 
 
     app.get('/users/admin/:email', verifyJWT, async (req, res) => {
-      // const email = req.params.email;
-      // const query = { email: email }
-      // const user = await userCollaction.findOne(query);
-      // const result = { admin: user?.rol === 'admin' };
-      // res.send(result)
-
       const email = req.params.email;
 
       if (!req.decoded.email) {
@@ -271,11 +263,7 @@ async function run() {
       if (existingPayment) {
         return res.send({ message: "Already Enrolled This Class" })
       }
-
-
       const insertResult = await paymentCollection.insertOne(payment);
-
-
       const deleteResult = await classCollection.deleteOne(query);
 
       return res.send({ insertResult, deleteResult });
@@ -321,32 +309,11 @@ async function run() {
       res.send(result);
     })
 
-    //   payment emeplement end 
-
-
     // Review Collection
     app.get('/review', async (req, res) => {
       const instructors = await reviewCollection.find().toArray();
       res.send(instructors)
     })
-
-
-    // Pyment intent
-    // app.post('/create-payment-intent',  async (req, res) => {
-    //     const { price } = req.body;
-    //     const amount = parseInt(price * 100);
-    //     const paymentIntent = await stripe.paymentIntents.create({
-    //       amount: amount,
-    //       currency: 'usd',
-    //       payment_method_types: ['card']
-    //     });
-
-    //     res.send({
-    //       clientSecret: paymentIntent.client_secret
-    //     })
-    //   })
-
-
 
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
