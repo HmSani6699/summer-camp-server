@@ -253,7 +253,6 @@ async function run() {
 
     app.post("/payments", verifyJWT, async (req, res) => {
       const payment = req.body;
-
       const id = payment.id;
       console.log(id);
       const filter = { id: id };
